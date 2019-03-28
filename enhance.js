@@ -7,6 +7,19 @@ function register(pathRegex, callback) {
   enhancements[pathRegex] = callback;
 }
 
+function inform(message) {
+  console.log(message);
+  context.alert(message);
+}
+
+function mapKeyBinding(checkFn, matchFn) {
+  context.addEventListener("keyup", e => {
+    if (checkFn(e)) {
+      matchFn.apply(context);
+    }
+  });
+}
+
 // TODO: This is a little broad still
 register("twilio.com/docs/admin/.*", () => {
   function stripMatch(text, regex) {
@@ -41,8 +54,11 @@ register("twilio.com/docs/admin/.*", () => {
     textArea.value = removeTableStyling(orig);
     console.log(`Cleaned up ${orig.length - textArea.value.length} characters`);
   }
-
-  cleanupSourceCode();
+  const setupMessage = `Press Ctrl+T when in Source Code window modal to clean`;
+  inform(setupMessage);
+  mapKeyBinding(e => e.ctrlKey && e.code === 'KeyT', () => {
+    cleanupSourceCode();
+  });
 });
 
 // Router of sorts
@@ -55,7 +71,7 @@ function onLoad() {
       enhancements[pathRegex].apply(context);
     }
   });
-  
+
   if (!enhanced) {
     console.warn("No enhancements found for", window.location.href);
     console.log("Available enhancements:", Object.keys(enhancements));
