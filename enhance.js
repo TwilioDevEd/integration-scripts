@@ -19,9 +19,9 @@ register("twilio.com/docs/admin/.*", () => {
   }
 
   function removeTableStyling(html) {
-    let result = stripMatch(html, /<tr[\W]+(style=".*")/gi);
+    let result = stripMatch(html, /<table[\W]+(style=".*")/gi);
     result = stripMatch(result, /<tr[\W]+(style=".*")/gi);
-    result = stripMatch(result, /<table[\W]+(style=".*")/gi);
+    result = stripMatch(result, /<td[\W]+(style=".*")/gi);
     return result;
   }
 
