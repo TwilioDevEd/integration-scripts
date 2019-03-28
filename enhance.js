@@ -54,9 +54,9 @@ register("twilio.com/docs/admin/.*", () => {
     textArea.value = removeTableStyling(orig);
     console.log(`Cleaned up ${orig.length - textArea.value.length} characters`);
   }
-  const setupMessage = `Press Ctrl+T when in Source Code window modal to clean`;
+  const setupMessage = `Press Ctrl + Shift + T when in Source Code window modal to clean`;
   inform(setupMessage);
-  mapKeyBinding(e => e.ctrlKey && e.code === 'KeyT', () => {
+  mapKeyBinding(e => e.ctrlKey && e.shift && e.code === 'KeyT', () => {
     cleanupSourceCode();
   });
 });
