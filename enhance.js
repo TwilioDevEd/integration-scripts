@@ -20,6 +20,14 @@ function mapKeyBinding(checkFn, matchFn) {
   });
 }
 
+register("console.twilio.com/.*/account/manage-account/manage-users", () => {
+  function clickAddUser() {
+    document.querySelectorAll('.ui-component-button_circle')[0].click();
+  }
+  console.log("Activated");
+  clickAddUser();
+});
+
 // TODO: This is a little broad still
 register("twilio.com/docs/admin/.*", () => {
   function stripMatch(text, regex) {
