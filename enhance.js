@@ -44,10 +44,9 @@ register("twilio.com/console/project/users", () => {
   async function addDeveloper(email) {
     console.log("Clicking add button");
     document.querySelectorAll(".ui-component-button_circle")[0].click();
-    await sleep(2000);
+    await sleep(1000);
     console.log(`Entering email: ${email}`);
     const fldEmail = document.querySelectorAll("input[name=email]")[0];
-    console.log("Email field", fldEmail);
     setReactInput(fldEmail, email);
     document.querySelectorAll("input[name=Developer]")[0].click();
     await sleep(500);
@@ -55,8 +54,13 @@ register("twilio.com/console/project/users", () => {
     // Check status?
     await sleep(500);
   }
-  console.log("Activated. Call `addDeveloper`");
+  console.log("Activated. Call `addDevelopers`");
   window.addDeveloper = addDeveloper;
+  window.addDevelopers = async function (...emails) {
+    for (const email of emails) {
+      await addDeveloper(email);
+    }
+  };
 });
 
 // TODO: This is a little broad still
