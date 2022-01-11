@@ -25,15 +25,15 @@ function sleep(ms) {
 }
 
 function setReactInput(ref, value) {
-  const valueSetter = Object.getOwnPropertyDescriptor(this.textInputRef, 'value').set;
-  const prototype = Object.getPrototypeOf(this.textInputRef);
+  const valueSetter = Object.getOwnPropertyDescriptor(ref, 'value').set;
+  const prototype = Object.getPrototypeOf(ref);
   const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
   if (valueSetter && valueSetter !== prototypeValueSetter) {
-      prototypeValueSetter.call(this.textInputRef, 'new value');
+      prototypeValueSetter.call(ref, 'new value');
   } else {
-      valueSetter.call(this.textInputRef, 'new value');
+      valueSetter.call(ref, 'new value');
   }
-  this.textInputRef.dispatchEvent(new Event('input', { bubbles: true }));
+  ref.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 // This is a bit ugly due to iframes
