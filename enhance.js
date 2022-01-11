@@ -20,7 +20,8 @@ function mapKeyBinding(checkFn, matchFn) {
   });
 }
 
-register("console.twilio.com/.*/account/manage-account/manage-users", () => {
+// This is a bit ugly due to iframes
+register("twilio.com/console/project/users", () => {
   function clickAddUser() {
     document.querySelectorAll('.ui-component-button_circle')[0].click();
   }
