@@ -13,7 +13,7 @@ function inform(message) {
 }
 
 function mapKeyBinding(checkFn, matchFn) {
-  context.addEventListener("keyup", e => {
+  context.addEventListener("keyup", (e) => {
     if (checkFn(e)) {
       matchFn.apply(context);
     }
@@ -21,19 +21,22 @@ function mapKeyBinding(checkFn, matchFn) {
 }
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function setReactInput(ref, value) {
-  const valueSetter = Object.getOwnPropertyDescriptor(ref, 'value').set;
+  const valueSetter = Object.getOwnPropertyDescriptor(ref, "value").set;
   const prototype = Object.getPrototypeOf(ref);
-  const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
+  const prototypeValueSetter = Object.getOwnPropertyDescriptor(
+    prototype,
+    "value"
+  ).set;
   if (valueSetter && valueSetter !== prototypeValueSetter) {
-      prototypeValueSetter.call(ref, 'new value');
+    prototypeValueSetter.call(ref, value);
   } else {
-      valueSetter.call(ref, 'new value');
+    valueSetter.call(ref, value);
   }
-  ref.dispatchEvent(new Event('input', { bubbles: true }));
+  ref.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
 // This is a bit ugly due to iframes
@@ -49,7 +52,7 @@ register("twilio.com/console/project/users", () => {
     document.querySelectorAll("input[name=Developer]")[0].click();
     await sleep(500);
     document.querySelectorAll(".btn.btn-inverse")[0].click();
-    // Check status? 
+    // Check status?
     await sleep(500);
   }
   console.log("Activated. Call `addDeveloper`");
@@ -92,15 +95,18 @@ register("twilio.com/docs/admin/.*", () => {
   }
   const setupMessage = `Press F2 when in Source Code window modal to clean`;
   inform(setupMessage);
-  mapKeyBinding(e => e.code === 'F2', () => {
-    cleanupSourceCode();
-  });
+  mapKeyBinding(
+    (e) => e.code === "F2",
+    () => {
+      cleanupSourceCode();
+    }
+  );
 });
 
 // Router of sorts
 function onLoad() {
   let enhanced = false;
-  Object.keys(enhancements).forEach(function(pathRegex) {
+  Object.keys(enhancements).forEach(function (pathRegex) {
     if (window.location.href.match(pathRegex)) {
       console.log("Matched on", pathRegex);
       enhanced = true;
