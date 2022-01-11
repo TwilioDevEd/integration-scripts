@@ -29,14 +29,14 @@ register("twilio.com/console/project/users", () => {
   async function addDeveloper(email) {
     console.log("Clicking add button");
     document.querySelectorAll(".ui-component-button_circle")[0].click();
-    sleep(2000);
+    await sleep(1000);
     console.log(`Entering email: ${email}`);
     document.querySelectorAll("input[name=email]")[0].value = email;
     document.querySelectorAll("input[name=Developer]")[0].click();
-    sleep(500);
+    await sleep(500);
     document.querySelectorAll(".btn.btn-inverse")[0].click();
     // Check status? 
-    sleep(500);
+    await sleep(500);
   }
   console.log("Activated. Call `addDeveloper`");
   window.addDeveloper = addDeveloper;
