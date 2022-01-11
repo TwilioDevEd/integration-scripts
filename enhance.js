@@ -24,6 +24,18 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function setReactInput(ref, value) {
+  const valueSetter = Object.getOwnPropertyDescriptor(this.textInputRef, 'value').set;
+  const prototype = Object.getPrototypeOf(this.textInputRef);
+  const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
+  if (valueSetter && valueSetter !== prototypeValueSetter) {
+      prototypeValueSetter.call(this.textInputRef, 'new value');
+  } else {
+      valueSetter.call(this.textInputRef, 'new value');
+  }
+  this.textInputRef.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
 // This is a bit ugly due to iframes
 register("twilio.com/console/project/users", () => {
   async function addDeveloper(email) {
@@ -33,7 +45,7 @@ register("twilio.com/console/project/users", () => {
     console.log(`Entering email: ${email}`);
     const fldEmail = document.querySelectorAll("input[name=email]")[0];
     console.log("Email field", fldEmail);
-    fldEmail.value = email;
+    setReactInput(fldEmail, email);
     document.querySelectorAll("input[name=Developer]")[0].click();
     await sleep(500);
     document.querySelectorAll(".btn.btn-inverse")[0].click();
