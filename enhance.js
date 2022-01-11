@@ -20,13 +20,25 @@ function mapKeyBinding(checkFn, matchFn) {
   });
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // This is a bit ugly due to iframes
 register("twilio.com/console/project/users", () => {
-  function clickAddUser() {
-    document.querySelectorAll('.ui-component-button_circle')[0].click();
+  async function addDeveloper(email) {
+    console.log("Clicking add button");
+    document.querySelectorAll(".ui-component-button_circle")[0].click();
+    sleep(1000);
+    document.querySelectorAll("input[name=email]")[0].value = email;
+    document.querySelectorAll("input[name=Developer]")[0].click();
+    sleep(500);
+    document.querySelectorAll(".btn.btn-inverse")[0].click();
+    // Check status? 
+    sleep(500);
   }
-  console.log("Activated");
-  clickAddUser();
+  console.log("Activated. Call `addDeveloper`");
+  window.addDeveloper = addDeveloper;
 });
 
 // TODO: This is a little broad still
