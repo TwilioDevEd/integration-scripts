@@ -44,7 +44,7 @@ register("twilio.com/console/project/users", () => {
   async function addDeveloper(email) {
     console.log("Clicking add button");
     document.querySelectorAll(".ui-component-button_circle")[0].click();
-    await sleep(1000);
+    await sleep(500);
     console.log(`Entering email: ${email}`);
     const fldEmail = document.querySelectorAll("input[name=email]")[0];
     setReactInput(fldEmail, email);
